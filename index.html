@@ -590,22 +590,14 @@ footer {
     <div class="hero-stats">
       <div style="margin-top:40px; text-align:center;">
 
-  <button onclick="sendCommand('turn on light')" style="padding:10px 20px; margin:10px;">
-    💡 Light ON
-  </button>
+<button onclick="sendCommand('turn on light')">💡 Light ON</button>
 
-  <button onclick="sendCommand('turn off light')" style="padding:10px 20px; margin:10px;">
-    💡 Light OFF
-  </button>
+<button onclick="sendCommand('turn off light')">💡 Light OFF</button>
 
-  <button onclick="sendCommand('what do you see')" style="padding:10px 20px; margin:10px;">
-    👁️ Vision
-  </button>
+<button onclick="sendCommand('what do you see')">👁 Vision</button>
 
-  <button onclick="sendCommand('open door with face')" style="padding:10px 20px; margin:10px;">
-    🚪 Face Unlock
-  </button>
-
+<button onclick="sendCommand('open door with face')">🚪 Face Unlock</button>
+        
 </div>
       <div class="stat-item"><h4>6</h4><p>Core Modules</p></div>
       <div class="stat-item"><h4>24/7</h4><p>Active Guard</p></div>
@@ -862,21 +854,36 @@ footer {
 
 
 <script>
+// 🔹 Navigation function
 function go(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
+
   document.getElementById('page-' + name).classList.add('active');
-  const labels = { home:'Home', capabilities:'Capabilities', system:'System', security:'Security' };
+
+  const labels = {
+    home: 'Home',
+    capabilities: 'Capabilities',
+    system: 'System',
+    security: 'Security'
+  };
+
   document.querySelectorAll('.nav-links li').forEach(li => {
-    if (li.textContent.trim() === labels[name]) li.classList.add('active');
+    if (li.textContent.trim() === labels[name]) {
+      li.classList.add('active');
+    }
   });
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-  
-<script>
+
+// 🔹 Backend API URL
 const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
 
+// 🔹 Send command to Astra backend
 async function sendCommand(command) {
+  console.log("Sending:", command);
+
   try {
     const res = await fetch(`${API_URL}/command`, {
       method: "POST",
@@ -888,25 +895,14 @@ async function sendCommand(command) {
 
     const data = await res.json();
 
-    console.log("Astra:", data.response);
+    console.log("Astra:", data);
 
-    // show popup
     alert("Astra: " + data.response);
-
-    // speak response
-    speakResponse(data.response);
 
   } catch (err) {
     console.error("Error:", err);
     alert("Backend not connected");
   }
-}
-
-// 🔊 browser voice
-function speakResponse(text) {
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "en-IN";
-  window.speechSynthesis.speak(speech);
 }
 </script>
 </body>
