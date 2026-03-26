@@ -588,6 +588,25 @@ footer {
     </div>
 
     <div class="hero-stats">
+      <div style="margin-top:40px; text-align:center;">
+
+  <button onclick="sendCommand('turn on light')" style="padding:10px 20px; margin:10px;">
+    💡 Light ON
+  </button>
+
+  <button onclick="sendCommand('turn off light')" style="padding:10px 20px; margin:10px;">
+    💡 Light OFF
+  </button>
+
+  <button onclick="sendCommand('what do you see')" style="padding:10px 20px; margin:10px;">
+    👁️ Vision
+  </button>
+
+  <button onclick="sendCommand('open door with face')" style="padding:10px 20px; margin:10px;">
+    🚪 Face Unlock
+  </button>
+
+</div>
       <div class="stat-item"><h4>6</h4><p>Core Modules</p></div>
       <div class="stat-item"><h4>24/7</h4><p>Active Guard</p></div>
       <div class="stat-item"><h4>&lt;50ms</h4><p>Response Time</p></div>
@@ -853,6 +872,7 @@ function go(name) {
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+  
 <script>
 const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
 
@@ -870,15 +890,19 @@ async function sendCommand(command) {
 
     console.log("Astra:", data.response);
 
+    // show popup
+    alert("Astra: " + data.response);
+
+    // speak response
     speakResponse(data.response);
 
   } catch (err) {
-    console.error(err);
+    console.error("Error:", err);
     alert("Backend not connected");
   }
 }
 
-// 🔊 Browser voice response
+// 🔊 browser voice
 function speakResponse(text) {
   const speech = new SpeechSynthesisUtterance(text);
   speech.lang = "en-IN";
