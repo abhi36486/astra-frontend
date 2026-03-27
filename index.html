@@ -876,17 +876,24 @@ const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
 // 🔹 Send command to Astra backend
 async function sendCommand(command) {
   console.log("Sending:", command);
+
   try {
     const res = await fetch(`${API_URL}/command`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query: command })
+      body: JSON.stringify({
+        query: command   // ✅ VERY IMPORTANT
+      })
     });
+
     const data = await res.json();
+
     console.log("Astra:", data);
+
     alert("Astra: " + (data.response || JSON.stringify(data)));
+
   } catch (err) {
     console.error("Error:", err);
     alert("Backend not connected");
