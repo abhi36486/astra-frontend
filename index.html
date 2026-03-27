@@ -874,8 +874,14 @@ function go(name) {
 // 🔹 Backend API URL
 const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
 
-async function sendCommand(command) {
-    console.log("Sending:", command);
+async function sendCommand(cmd) {
+    console.log("Sending:", cmd);
+
+    const payload = {
+        query: cmd
+    };
+
+    console.log("PAYLOAD:", payload);
 
     try {
         const res = await fetch(API_URL + "/command", {
@@ -883,19 +889,17 @@ async function sendCommand(command) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-                query: command
-            })
+            body: JSON.stringify(payload)
         });
 
         const data = await res.json();
 
-        console.log("Astra:", data);
+        console.log("RESPONSE:", data);
 
         alert("Astra: " + (data.response || JSON.stringify(data)));
 
     } catch (err) {
-        console.error("Error:", err);
+        console.error("ERROR:", err);
         alert("Backend not connected");
     }
 }
