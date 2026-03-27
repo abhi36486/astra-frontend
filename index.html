@@ -858,39 +858,35 @@ function go(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
-  const labels = { home:'Home', capabilities:'Capabilities', system:'System', security:'Security' };
+  const labels = {
+    home: 'Home',
+    capabilities: 'Capabilities',
+    system: 'System',
+    security: 'Security'
+  };
   document.querySelectorAll('.nav-links li').forEach(li => {
-    if (li.textContent.trim() === labels[name]) li.classList.add('active');
+    if (li.textContent.trim() === labels[name]) {
+      li.classList.add('active');
+    }
   });
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
-
 // 🔹 Backend API URL
 const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
-
 // 🔹 Send command to Astra backend
 async function sendCommand(command) {
-  if (!command || command.trim() === "") {
-    alert("Please enter a command!");
-    return;
-  }
-
   console.log("Sending:", command);
-
   try {
     const res = await fetch(`${API_URL}/command`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
-        "ngrok-skip-browser-warning": "true"   // ✅ Bypass ngrok warning page
+        "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query: command.trim() })
+      body: JSON.stringify({ query: command })
     });
-
     const data = await res.json();
     console.log("Astra:", data);
     alert("Astra: " + (data.response || JSON.stringify(data)));
-
   } catch (err) {
     console.error("Error:", err);
     alert("Backend not connected");
