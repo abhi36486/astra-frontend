@@ -873,7 +873,7 @@ function go(name) {
 }
 // 🔹 Backend API URL
 const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
-
+console.log("BODY:", JSON.stringify({ query: command }));
 async function sendCommand(command) {
     console.log("Sending:", command);
 
@@ -884,16 +884,15 @@ async function sendCommand(command) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                query: command
+                query: String(command)   // 🔥 FORCE STRING
             })
         });
 
-        const text = await res.text();
-        console.log("RAW RESPONSE:", text);
+        const data = await res.json();
 
-        const data = JSON.parse(text);
+        console.log("Astra:", data);
 
-        alert("Astra: " + (data.response || text));
+        alert("Astra: " + (data.response || JSON.stringify(data)));
 
     } catch (err) {
         console.error("Error:", err);
