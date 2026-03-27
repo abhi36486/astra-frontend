@@ -877,29 +877,19 @@ const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
 async function sendCommand(cmd) {
     console.log("Sending:", cmd);
 
-    const payload = {
-        query: cmd
-    };
-
-    console.log("PAYLOAD:", payload);
-
     try {
-        const res = await fetch(API_URL + "/command", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(payload)
+        const res = await fetch(`${API_URL}/command?query=${encodeURIComponent(cmd)}`, {
+            method: "POST"
         });
 
         const data = await res.json();
 
-        console.log("RESPONSE:", data);
+        console.log("Astra:", data);
 
         alert("Astra: " + (data.response || JSON.stringify(data)));
 
     } catch (err) {
-        console.error("ERROR:", err);
+        console.error("Error:", err);
         alert("Backend not connected");
     }
 }
