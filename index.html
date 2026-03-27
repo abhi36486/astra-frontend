@@ -852,28 +852,16 @@ footer {
   <footer><div class="footer-logo">ASTRA</div><p>AI System &bull; Future Smart Home Intelligence &bull; &copy; 2025</p></footer>
 </div>
 
-
 <script>
 // 🔹 Navigation function
 function go(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-links li').forEach(li => li.classList.remove('active'));
-
   document.getElementById('page-' + name).classList.add('active');
-
-  const labels = {
-    home: 'Home',
-    capabilities: 'Capabilities',
-    system: 'System',
-    security: 'Security'
-  };
-
+  const labels = { home:'Home', capabilities:'Capabilities', system:'System', security:'Security' };
   document.querySelectorAll('.nav-links li').forEach(li => {
-    if (li.textContent.trim() === labels[name]) {
-      li.classList.add('active');
-    }
+    if (li.textContent.trim() === labels[name]) li.classList.add('active');
   });
-
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -882,21 +870,25 @@ const API_URL = "https://luana-wafery-tornly.ngrok-free.dev";
 
 // 🔹 Send command to Astra backend
 async function sendCommand(command) {
+  if (!command || command.trim() === "") {
+    alert("Please enter a command!");
+    return;
+  }
+
   console.log("Sending:", command);
 
   try {
     const res = await fetch(`${API_URL}/command`, {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true"   // ✅ Bypass ngrok warning page
       },
-      body: JSON.stringify({ query: command })
+      body: JSON.stringify({ query: command.trim() })
     });
 
     const data = await res.json();
-
     console.log("Astra:", data);
-
     alert("Astra: " + (data.response || JSON.stringify(data)));
 
   } catch (err) {
