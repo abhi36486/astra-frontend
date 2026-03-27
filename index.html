@@ -897,7 +897,7 @@ async function sendCommand(command) {
 
     console.log("Astra:", data);
 
-    alert("Astra: " + data.response);
+    alert("Astra: " + (data.response || JSON.stringify(data)));
 
   } catch (err) {
     console.error("Error:", err);
