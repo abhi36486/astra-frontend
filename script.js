@@ -33,9 +33,16 @@ function speak(text) {
     speech.pitch = 0.9;
     window.speechSynthesis.speak(speech);
 }
+// listen
+let recognition;
 
 function startContinuousListening() {
-    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+    if (recognition) {
+        recognition.stop(); // prevent duplicate instances
+    }
+
+    recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
 
     recognition.lang = "en-IN";
     recognition.continuous = true;
@@ -48,13 +55,18 @@ function startContinuousListening() {
         sendCommand(command);
     };
 
-    recognition.onerror = (e) => {
+    recognition.onerror = function(e) {
         console.log("Mic error:", e);
+
+        if (e.error === "network") {
+            console.log("Retrying...");
+        }
     };
 
-    recognition.onend = () => {
-        // 🔁 Restart automatically (important)
-        startContinuousListening();
+    recognition.onend = function() {
+        setTimeout(() => {
+            startContinuousListening();
+        }, 1000);
     };
 
     recognition.start();
@@ -90,9 +102,5 @@ async function sendCommand(cmd) {
       
     }
 }
-// ✅ MAKE FUNCTIONS GLOBAL
-window.sendCommand = sendCommand;
-window.onload = () => {
-    startContinuousListening();
-};
+
 
