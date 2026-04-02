@@ -76,8 +76,9 @@ async function sendCommand(cmd) {
         console.error("Error:", err);
         alert("Backend not connected");
       
-      window.sendCommand = sendCommand;
-      window.go = go;
-      window.startListening = startListening;
     }
 }
+// ✅ MAKE FUNCTIONS GLOBAL
+window.sendCommand = sendCommand;
+window.go = go;
+window.startListening = startListening;
