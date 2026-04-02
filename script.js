@@ -75,6 +75,10 @@ async function sendCommand(cmd) {
     } catch (err) {
         console.error("Error:", err);
         alert("Backend not connected");
+      
+      window.sendCommand = sendCommand;
+      window.go = go;
+      window.startListening = startListening;
     }
 }
 </script>
