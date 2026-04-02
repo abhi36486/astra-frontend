@@ -1,4 +1,4 @@
-<script>
+
 // 🔹 Navigation
 function go(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -81,4 +81,3 @@ async function sendCommand(cmd) {
       window.startListening = startListening;
     }
 }
-</script>
