@@ -34,18 +34,20 @@ function speak(text) {
     window.speechSynthesis.speak(speech);
 }
 
-// 🎤 VOICE INPUT (OPTIONAL)
-function startListening() {
+function startContinuousListening() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
     recognition.lang = "en-IN";
-
-    recognition.start();
+    recognition.continuous = true;
 
     recognition.onresult = function(event) {
-        const command = event.results[0][0].transcript;
+        const command = event.results[event.results.length - 1][0].transcript;
+
         console.log("You:", command);
+
         sendCommand(command);
     };
+
+    recognition.start();
 }
 
 // 🔹 Send Command
@@ -80,5 +82,6 @@ async function sendCommand(cmd) {
 }
 // ✅ MAKE FUNCTIONS GLOBAL
 window.sendCommand = sendCommand;
-window.go = go;
-window.startListening = startListening;
+window.onload = () => {
+    startContinuousListening();
+};
