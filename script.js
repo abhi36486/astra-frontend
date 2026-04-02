@@ -36,6 +36,7 @@ function speak(text) {
 
 function startContinuousListening() {
     const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
     recognition.lang = "en-IN";
     recognition.continuous = true;
 
@@ -45,6 +46,15 @@ function startContinuousListening() {
         console.log("You:", command);
 
         sendCommand(command);
+    };
+
+    recognition.onerror = (e) => {
+        console.log("Mic error:", e);
+    };
+
+    recognition.onend = () => {
+        // 🔁 Restart automatically (important)
+        startContinuousListening();
     };
 
     recognition.start();
@@ -85,3 +95,4 @@ window.sendCommand = sendCommand;
 window.onload = () => {
     startContinuousListening();
 };
+
